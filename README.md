@@ -126,9 +126,9 @@
 
         .book {
             position: relative;
-            width: 300px;
+            width: 450px;
             height: 400px;
-            perspective: 1200px;
+            perspective: 1500px;
         }
 
         .page {
@@ -165,29 +165,38 @@
                 white 23px,
                 #f0f0f0 24px
             );
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #333;
             text-align: left;
             z-index: 1;
-            line-height: 24px;
+            line-height: 1.4;
             font-family: "Courier New", monospace;
             position: relative;
-            padding: 40px 30px;
+            padding: 30px 25px;
             word-wrap: break-word;
             word-break: break-word;
             white-space: normal;
             overflow-wrap: break-word;
+            overflow-y: auto;
         }
 
         .page2 .line {
-            min-height: 24px;
+            min-height: 20px;
             width: 100%;
             word-wrap: break-word;
-            word-break: keep-all;
+            word-break: break-word;
             overflow-wrap: break-word;
             white-space: normal;
             position: relative;
-            margin-bottom: 0;
+            margin-bottom: 2px;
+            padding-left: 10px;
+            text-indent: -10px;
+        }
+
+        .page2 .line::before {
+            content: "•";
+            margin-right: 8px;
+            color: #ff4081;
         }
 
         .book.opened .page1 {
@@ -392,9 +401,10 @@
             position: absolute;
             font-size: 24px;
             display: none;
-            transition: left 0.05s linear, top 0.05s linear;
+            transition: all 0.3s ease;
             z-index: 10;
             pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         @keyframes shake {
@@ -422,12 +432,10 @@
             display: none;
         }
 
-        /* Ẩn audio player hoàn toàn */
         .audio-player {
             display: none;
         }
 
-        /* Hiệu ứng kim tuyến */
         .glitter {
             position: fixed;
             width: 5px;
@@ -485,6 +493,16 @@
             }
         }
 
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0.7; transform: translateY(-2px); }
+        }
+
+        @keyframes write {
+            0% { transform: translateX(-5px) rotate(-5deg); }
+            100% { transform: translateX(0) rotate(0deg); }
+        }
+
         @media (max-width: 768px) {
             .container {
                 border-radius: 10px;
@@ -504,8 +522,8 @@
             }
             
             .page2 {
-                font-size: 1rem;
-                padding: 30px 20px;
+                font-size: 0.9rem;
+                padding: 25px 15px;
             }
             
             .gallery-image {
@@ -553,11 +571,13 @@
             </div>
 
             <div class="gallery" id="imageGallery">
+                <h2>📸 Kỷ niệm đẹp</h2>
+                <div class="gallery-container" id="galleryContainer">
                     <!-- Ảnh sẽ được thêm tự động -->
                 </div>
             </div>
         </div>
-
+    </div>
 
     <div class="slideshow" id="slideshow">
         <div class="slideshow-content">
@@ -566,8 +586,6 @@
     </div>
 
     <div class="notification" id="notification"></div>
-
-    
     <div class="audio-player" id="audioPlayer"></div>
 
     <script>
@@ -582,12 +600,11 @@
         let glitterInterval;
         let balloonInterval;
         let effectsActive = false;
-        let lastImagePosition = 0; // Theo dõi vị trí ảnh cuối cùng
+        let lastImagePosition = 0;
 
-    
         let birthdayAudio = new Audio();
         let isPlaying = false;
-        const DEFAULT_VOLUME = 0.7; // âm lượng
+        const DEFAULT_VOLUME = 0.7;
 
         // Ảnh từ file
         const localImages = [
@@ -600,10 +617,15 @@
         // file nhạc
         const MUSIC_FILE = "sn.mp3"; 
         
-        // Lời chúc
-        const message = "lời chúc";
+        // Lời chúc đã được định dạng với gạch đầu dòng
+        const message = `- Đầu tiên là nhân dịp mừng thọ tuổi 20 trừ 3 t chúc m luôn vui vẻ , hạnh phúc , ngày càng xinh gái hơn , học giỏi hơn, bớt sợ thầy tuyến lại , hay ăn chóng lớn gầy như quỷ í , gặp nhiều may mắn , có thật nhiều niềm vui trong cuộc sống , bớt ovtk , luôn suy nghĩ tích cực , đạt được thành công trong cuộc sống , vào trường mà m muốn chọn nghành m thích và đam mê , đỗ nguyện vọng 1 ( ước gì t vs m chung trường đại học thì vuii). 
+                     - Tiếp theo là bớt xàm bớt điên lại t nói z th chứ cũng chính vì tính cách hài hước và hoạt bát của m đã giúp cho t từ 1 ng hay cáu gắt trở nên vui vẻ và tích cực hơn . T vs ngồi chung bàn tính đến nay cũng là năm thứ 3 rồi chứng kiến mọi chuyện vui, chuyện buồn, chứng kiến từng khoảnh khắc xấu nhất của nhau, thấy những lần yếu đuối và rơi lệ vì vậy t luôn luôn trân trọng tình bạn này . Tuổi 17 là khoảng thời gian để lưu giữ lại những kỉ niệm quý giá của cta và cũng là hành trình trưởng thành của mỗi đứa tìm cho mk con đường phù hợp cho sau này bớt khổ và cũng muốn bố mẹ mk tự hào về mình . T chẳng còn biết là sinh nhật tuổi 18 của bọn mình còn có thể đông đủ như bây giờ không nhưng mà t cũng rất vui vì được gặp ae trong nhóm lợn và đặc biệt là m - (ngoại lệ) of Sam . T không giỏi văn , không viết được những lời hoa mĩ nhưng đây là tất cả những gì mà t muốn gửi tới m vào dịp sinh tuổi 17 của m 
+                     - Cuối cùng là chỉ mong m luôn vui vẻ có một cuộc sống an nhàn sau này làm đại gia thì nuôi t và mãi mãi làm bạn nhé🎂🎂🎂
+                háp pi háp pi háp pì 🎂🎂🎂
+                        
+                   Hết rồi😏`;
 
-        // tự động phát nhạc
+        // Tự động phát nhạc
         function playAudioAutomatically() {
             if (birthdayAudio.src) {
                 birthdayAudio.play().then(() => {
@@ -616,7 +638,7 @@
             }
         }
 
-        // chuyển đổi tên file thành đường dẫn ảnh
+        // Chuyển đổi tên file thành đường dẫn ảnh
         function processLocalImages() {
             const processedImages = [];
             
@@ -630,10 +652,10 @@
             return processedImages;
         }
 
-        // khởi tạo với tất cả ảnh
+        // Khởi tạo với tất cả ảnh
         uploadedImages = [...processLocalImages()];
 
-        // sự kiện khi trang được tải
+        // Sự kiện khi trang được tải
         window.onload = function() {
             document.getElementById("passwordInput").addEventListener("keypress", function(event) {
                 if (event.key === "Enter") {
@@ -647,11 +669,11 @@
                 console.log(`Đã tải ${localImages.length} ảnh từ thư mục`);
             }
 
-            // thiết lập audio với file nhạc đã chỉ định
+            // Thiết lập audio với file nhạc đã chỉ định
             setupAudio();
         };
 
-        // thiết lập audio
+        // Thiết lập audio
         function setupAudio() {
             if (MUSIC_FILE) {
                 birthdayAudio.src = MUSIC_FILE;
@@ -671,16 +693,9 @@
                 console.error("Không thể tải file nhạc:", MUSIC_FILE);
                 showNotification(`Không thể tải nhạc: ${MUSIC_FILE}. Vui lòng kiểm tra file!`);
             });
-
-            birthdayAudio.addEventListener('ended', function() {
-                if (birthdayAudio.loop) {
-                    birthdayAudio.currentTime = 0;
-                    birthdayAudio.play();
-                }
-            });
         }
 
-        // gallery ảnh
+        // Gallery ảnh
         function updateImageGallery() {
             const galleryContainer = document.getElementById('galleryContainer');
             if (!galleryContainer) return;
@@ -710,7 +725,7 @@
             }
         }
 
-        // xem ảnh lớn trong slideshow
+        // Xem ảnh lớn trong slideshow
         function viewImageInSlideshow(index) {
             showSlideshow();
             
@@ -741,7 +756,7 @@
             }, 100);
         }
 
-        // hiển thị thông báo
+        // Hiển thị thông báo
         function showNotification(msg) {
             const notification = document.getElementById('notification');
             notification.textContent = msg;
@@ -763,10 +778,10 @@
                 createConfetti(50);
                 showNotification("Mật khẩu đúng. 🎉");
                 
-                // bắt đầu hiệu ứng kim tuyến 
+                // Bắt đầu hiệu ứng kim tuyến 
                 startEffects();
                 
-                // tự động phát nhạc
+                // Tự động phát nhạc
                 setTimeout(() => {
                     if (birthdayAudio.src) {
                         playAudioAutomatically();
@@ -783,11 +798,10 @@
             }
         }
 
-        // bắt đầu hiệu ứng kim tuyến
+        // Bắt đầu hiệu ứng kim tuyến
         function startEffects() {
             effectsActive = true;
             
-            // tạo kim tuyến 
             glitterInterval = setInterval(() => {
                 if (!effectsActive) return;
                 
@@ -821,9 +835,9 @@
                     }
                 }, duration * 1000);
             }, 100);
-            
         }
-        // dừng hiệu ứng kim tuyến
+
+        // Dừng hiệu ứng kim tuyến
         function stopEffects() {
             effectsActive = false;
             clearInterval(glitterInterval);
@@ -835,16 +849,9 @@
                     glitter.parentNode.removeChild(glitter);
                 }
             });
-            
-            const balloons = document.querySelectorAll('.balloon');
-            balloons.forEach(balloon => {
-                if (balloon.parentNode) {
-                    balloon.parentNode.removeChild(balloon);
-                }
-            });
         }
 
-        // hiệu ứng mở thiệp 
+        // Hiệu ứng mở thiệp 
         function openGift() {
             if (isOpened) return;
             isOpened = true;
@@ -868,7 +875,7 @@
             showNotification("Đọc ít thôi 💌");
         }
 
-        // hiệu ứng gõ chữ với xuống dòng tự động
+        // Hiệu ứng gõ chữ với xuống dòng tự động - ĐÃ SỬA
         function typeMessage(text) {
             const messageEl = document.getElementById("messageContent");
             const pen = document.getElementById("pen");
@@ -877,35 +884,12 @@
             messageEl.innerHTML = '';
             pen.style.display = "block";
             
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.font = '1.2rem "Courier New", monospace';
-            
-            const pageWidth = page2.offsetWidth - 60;
-            
-            let lines = [];
-            let currentLine = '';
-            const words = text.split(' ');
-            
-            for (let i = 0; i < words.length; i++) {
-                const word = words[i];
-                const testText = currentLine ? currentLine + ' ' + word : word;
-                const textWidth = ctx.measureText(testText).width;
-                
-                if (textWidth > pageWidth && currentLine !== '') {
-                    lines.push(currentLine);
-                    currentLine = word;
-                } else {
-                    currentLine = testText;
-                }
-                
-                if (i === words.length - 1) {
-                    lines.push(currentLine);
-                }
-            }
+            // Tách văn bản thành các dòng dựa trên ký tự xuống dòng
+            const lines = text.split('\n').filter(line => line.trim() !== '');
             
             let currentLineIndex = 0;
             let currentCharIndex = 0;
+            let isFirstLine = true;
             
             function typeNextChar() {
                 if (currentLineIndex >= lines.length) {
@@ -919,6 +903,7 @@
                 if (currentCharIndex < currentLineText.length) {
                     messageEl.innerHTML = '';
                     
+                    // Hiển thị các dòng đã hoàn thành
                     for (let i = 0; i < currentLineIndex; i++) {
                         const completedLine = document.createElement('div');
                         completedLine.className = 'line';
@@ -926,19 +911,26 @@
                         messageEl.appendChild(completedLine);
                     }
                     
+                    // Hiển thị dòng đang gõ
                     const typingLine = document.createElement('div');
                     typingLine.className = 'line';
                     typingLine.textContent = currentLineText.substring(0, currentCharIndex + 1);
                     messageEl.appendChild(typingLine);
                     
-                    updatePenPosition(typingLine, currentCharIndex);
+                    // Cuộn đến dòng hiện tại
+                    messageEl.scrollTop = messageEl.scrollHeight;
+                    
+                    // Cập nhật vị trí bút - SỬA QUAN TRỌNG
+                    updatePenPosition(typingLine, currentCharIndex, currentLineText);
                     
                     currentCharIndex++;
-                    setTimeout(typeNextChar, 70);
+                    setTimeout(typeNextChar, isFirstLine ? 100 : 50);
+                    isFirstLine = false;
                 } else {
                     currentLineIndex++;
                     currentCharIndex = 0;
                     
+                    // Hiển thị tất cả các dòng đã hoàn thành
                     messageEl.innerHTML = '';
                     for (let i = 0; i < currentLineIndex; i++) {
                         const lineEl = document.createElement('div');
@@ -947,43 +939,77 @@
                         messageEl.appendChild(lineEl);
                     }
                     
-                    setTimeout(typeNextChar, 150);
+                    // Cuộn đến cuối
+                    messageEl.scrollTop = messageEl.scrollHeight;
+                    
+                    // Nếu còn dòng tiếp theo, đặt bút ở đầu dòng mới
+                    if (currentLineIndex < lines.length) {
+                        const nextLine = document.createElement('div');
+                        nextLine.className = 'line';
+                        nextLine.textContent = '•'; // Thêm ký tự gạch đầu dòng để có vị trí
+                        messageEl.appendChild(nextLine);
+                        updatePenPosition(nextLine, 0, '•');
+                        nextLine.textContent = ''; // Xóa ký tự sau khi đã định vị
+                    }
+                    
+                    setTimeout(typeNextChar, 200);
                 }
             }
             
             typeNextChar();
         }
 
-        // cập nhật vị trí bút
-        function updatePenPosition(lineEl, charIndex) {
+        // Cập nhật vị trí bút - ĐÃ SỬA HOÀN TOÀN
+        function updatePenPosition(lineEl, charIndex, fullText) {
             const pen = document.getElementById("pen");
             const page2 = document.getElementById("page2");
             
-            const tempSpan = document.createElement('span');
-            tempSpan.textContent = lineEl.textContent.substring(0, charIndex + 1);
-            tempSpan.style.visibility = 'hidden';
-            tempSpan.style.position = 'absolute';
-            tempSpan.style.whiteSpace = 'pre';
-            tempSpan.style.font = window.getComputedStyle(lineEl).font;
-            tempSpan.style.lineHeight = window.getComputedStyle(lineEl).lineHeight;
-            
-            document.body.appendChild(tempSpan);
-            
-            const textWidth = tempSpan.offsetWidth;
-            
-            const lineRect = lineEl.getBoundingClientRect();
-            const pageRect = page2.getBoundingClientRect();
-            
-            const penLeft = lineRect.left - pageRect.left + textWidth + 5;
-            const penTop = lineRect.top - pageRect.top - 5;
-            
-            pen.style.left = penLeft + "px";
-            pen.style.top = penTop + "px";
-            
-            document.body.removeChild(tempSpan);
+            // Đợi một chút để DOM cập nhật
+            setTimeout(() => {
+                // Tạo một span ẩn để đo chiều rộng chính xác
+                const tempSpan = document.createElement('span');
+                tempSpan.style.visibility = 'hidden';
+                tempSpan.style.position = 'absolute';
+                tempSpan.style.whiteSpace = 'pre';
+                tempSpan.style.font = window.getComputedStyle(lineEl).font;
+                tempSpan.style.fontFamily = window.getComputedStyle(lineEl).fontFamily;
+                tempSpan.style.fontSize = window.getComputedStyle(lineEl).fontSize;
+                tempSpan.style.fontWeight = window.getComputedStyle(lineEl).fontWeight;
+                tempSpan.style.lineHeight = window.getComputedStyle(lineEl).lineHeight;
+                
+                // Đo chiều rộng của văn bản hiện tại
+                const currentText = fullText.substring(0, charIndex + 1);
+                tempSpan.textContent = currentText;
+                document.body.appendChild(tempSpan);
+                
+                const textWidth = tempSpan.offsetWidth;
+                const textHeight = tempSpan.offsetHeight;
+                
+                // Lấy vị trí của dòng hiện tại
+                const lineRect = lineEl.getBoundingClientRect();
+                const pageRect = page2.getBoundingClientRect();
+                
+                // Tính toán vị trí bút chính xác
+                const baseLeft = lineRect.left - pageRect.left;
+                const baseTop = lineRect.top - pageRect.top;
+                
+                // Vị trí bút: bắt đầu từ dòng + chiều rộng văn bản + offset nhỏ
+                const penLeft = baseLeft + textWidth + 8;
+                const penTop = baseTop + (textHeight / 2) - 12; // Căn giữa theo chiều cao dòng
+                
+                // Đặt vị trí bút
+                pen.style.left = Math.max(10, Math.min(page2.offsetWidth - 30, penLeft)) + "px";
+                pen.style.top = Math.max(10, Math.min(page2.offsetHeight - 30, penTop)) + "px";
+                
+                // Thêm hiệu ứng
+                pen.style.animation = 'blink 1s infinite, write 0.5s ease';
+                
+                // Dọn dẹp
+                document.body.removeChild(tempSpan);
+            }, 10);
         }
 
-        // hiển thị slideshow ảnh bay 
+        // Hiển thị slideshow ảnh bay 
         function showSlideshow() {
             document.getElementById("book").style.display = "none";
             document.getElementById("nextButton").style.display = "none";
@@ -995,34 +1021,26 @@
             slideshow.style.display = "block";
             slideshow.innerHTML = '<button class="close-slideshow" onclick="closeSlideshow()">×</button>';
 
-            // reset vị trí ảnh cuối cùng
             lastImagePosition = 0;
-
-            // tạo ảnh bay liên tục
             createContinuousFlyingImages();
-            
-            playSlideshowSound();
         }
         
-        // tạo ảnh bay liên tục nối tiếp nhau
+        // Tạo ảnh bay liên tục nối tiếp nhau
         function createContinuousFlyingImages() {
             const slideshow = document.getElementById("slideshow");
-            const windowHeight = window.innerHeight;
             
-            // xóa interval cũ nếu có
             if (slideshowInterval) {
                 clearInterval(slideshowInterval);
             }
             
-            // khoảng cách đều đặn
             slideshowInterval = setInterval(() => {
-                if (activeImages < 25) { // số ảnh trên màn
-                    createImageSequence(3); // số ảnh mỗi lầ tạo
+                if (activeImages < 25) {
+                    createImageSequence(3);
                 }
-            }, 600); // tg tạo ảnh
+            }, 600);
         }
         
-        // tạo chuỗi ảnh nối tiếp nhau
+        // Tạo chuỗi ảnh nối tiếp nhau
         function createImageSequence(count) {
             const slideshow = document.getElementById("slideshow");
             const windowHeight = window.innerHeight;
@@ -1040,16 +1058,14 @@
                     img.alt = `Ảnh kỷ niệm ${randomId}`;
                 }
 
-                // tính toán vị trí ảnh 
                 let topPosition;
                 if (lastImagePosition === 0) {
                     topPosition = Math.random() * (windowHeight - 200);
                 } else {
-                    const minGap = 50; // khoảng cách tối thiểu giữa các ảnh
-                    const maxGap = 150; // khoảng cách tối đa giữa các ảnh
+                    const minGap = 50;
+                    const maxGap = 150;
                     const gap = minGap + Math.random() * (maxGap - minGap);
                     
-                    // căn chỉnh ảnh trong khung hình
                     topPosition = lastImagePosition + gap;
                     if (topPosition > windowHeight - 200) {
                         topPosition = Math.random() * (windowHeight - 200); 
@@ -1059,17 +1075,15 @@
                 lastImagePosition = topPosition;
                 img.style.top = Math.max(0, Math.min(windowHeight - 200, topPosition)) + "px";
 
-                // sử dụng animation ngẫu nhiên
                 const animations = ['flyLeft', 'flyLeft2', 'flyLeft3', 'flyLeft4', 'flyLeft5'];
                 const randomAnim = animations[Math.floor(Math.random() * animations.length)];
-                const duration = 6 + Math.random() * 4; // thời gian di chuyển
+                const duration = 6 + Math.random() * 4;
                 
                 img.style.animation = `${randomAnim} ${duration}s linear forwards`;
                 
                 slideshow.appendChild(img);
                 activeImages++;
                 
-                // xóa ảnh sau khi hoàn thành animation
                 setTimeout(() => {
                     if (img.parentNode) {
                         img.parentNode.removeChild(img);
@@ -1077,7 +1091,6 @@
                     }
                 }, duration * 1000);
                 
-                // xử lý lỗi tải ảnh
                 img.onerror = function() {
                     console.error("Không thể tải ảnh:", this.src);
                     if (this.parentNode) {
@@ -1088,7 +1101,7 @@
             }
         }
         
-        // đóng xem ảnh
+        // Đóng xem ảnh
         function closeSlideshow() {
             clearInterval(slideshowInterval);
             
@@ -1108,7 +1121,7 @@
             startEffects();
         }
         
-        // tạo hiệu ứng kim tuyến
+        // Tạo hiệu ứng kim tuyến
         function createConfetti(count) {
             const colors = ['#ff4081', '#4ecdc4', '#ff6b6b', '#ffd166', '#06d6a0'];
             
@@ -1140,12 +1153,8 @@
         function playSoundEffect() {
             console.log("🎵 Phát âm thanh hiệu ứng");
         }
-        
-        function playSlideshowSound() {
-            console.log("🎵 Phát nhạc slideshow");
-        }
 
-        // điều chỉnh âm lượng bên ngoài
+        // Điều chỉnh âm lượng
         function setVolume(volume) {
             if (volume >= 0 && volume <= 1) {
                 birthdayAudio.volume = volume;
@@ -1153,7 +1162,7 @@
             }
         }
 
-        // tắt/bật nhạc bên ngoài
+        // Tắt/bật nhạc
         function toggleMusic() {
             if (isPlaying) {
                 birthdayAudio.pause();
