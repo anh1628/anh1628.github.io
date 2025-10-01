@@ -22,10 +22,10 @@
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1200px;
             width: 100%;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 5px;
+            border-radius: 20px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             position: relative;
@@ -81,7 +81,7 @@
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             width: 100%;
-            max-width: 1000px;
+            max-width: 300px;
         }
 
         .submit-btn:hover {
@@ -603,7 +603,6 @@
                     <!-- Ảnh sẽ được thêm tự động -->
                 </div>
             </div>
-        </div>
 
     <div class="slideshow" id="slideshow">
         <div class="slideshow-content">
