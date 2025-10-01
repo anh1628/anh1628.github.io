@@ -81,7 +81,7 @@
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
             width: 100%;
-            max-width: 300px;
+            max-width: 500px;
         }
 
         .submit-btn:hover {
