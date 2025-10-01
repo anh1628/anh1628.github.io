@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -169,7 +170,7 @@
             color: #333;
             text-align: left;
             z-index: 1;
-            line-height: 1.4;
+            line-height: 1.6;
             font-family: "Courier New", monospace;
             position: relative;
             padding: 30px 25px;
@@ -181,22 +182,48 @@
         }
 
         .page2 .line {
-            min-height: 20px;
+            min-height: 24px;
             width: 100%;
             word-wrap: break-word;
             word-break: break-word;
             overflow-wrap: break-word;
             white-space: normal;
             position: relative;
-            margin-bottom: 2px;
-            padding-left: 10px;
-            text-indent: -10px;
+            margin-bottom: 4px;
+            padding-left: 15px;
+            text-indent: -15px;
+            display: block;
         }
 
         .page2 .line::before {
             content: "•";
-            margin-right: 8px;
+            margin-right: 10px;
             color: #ff4081;
+        }
+
+        .message-content {
+            width: 100%;
+            max-height: 100%;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .message-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .message-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .message-content::-webkit-scrollbar-thumb {
+            background: #ffb6c1;
+            border-radius: 3px;
+        }
+
+        .message-content::-webkit-scrollbar-thumb:hover {
+            background: #ff4081;
         }
 
         .book.opened .page1 {
@@ -397,28 +424,6 @@
             z-index: 1000;
         }
 
-        .pen {
-            position: absolute;
-            font-size: 24px;
-            display: none;
-            transition: all 0.3s ease;
-            z-index: 10;
-            pointer-events: none;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        @keyframes shake {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            10%, 30%, 50%, 70%, 90% {
-                transform: translateX(-5px);
-            }
-            20%, 40%, 60%, 80% {
-                transform: translateX(5px);
-            }
-        }
-
         .notification {
             position: fixed;
             bottom: 20px;
@@ -493,14 +498,16 @@
             }
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: translateY(0); }
-            50% { opacity: 0.7; transform: translateY(-2px); }
-        }
-
-        @keyframes write {
-            0% { transform: translateX(-5px) rotate(-5deg); }
-            100% { transform: translateX(0) rotate(0deg); }
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-5px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(5px);
+            }
         }
 
         @media (max-width: 768px) {
@@ -513,8 +520,8 @@
             }
             
             .book {
-                width: 250px;
-                height: 350px;
+                width: 320px;
+                height: 400px;
             }
             
             .page1 {
@@ -522,8 +529,14 @@
             }
             
             .page2 {
-                font-size: 0.9rem;
-                padding: 25px 15px;
+                font-size: 1rem;
+                padding: 25px 20px;
+            }
+            
+            .page2 .line {
+                font-size: 1rem;
+                padding-left: 12px;
+                text-indent: -12px;
             }
             
             .gallery-image {
@@ -533,6 +546,24 @@
             
             .slideshow img {
                 height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .book {
+                width: 280px;
+                height: 380px;
+            }
+            
+            .page2 {
+                font-size: 0.9rem;
+                padding: 20px 15px;
+            }
+            
+            .page2 .line {
+                font-size: 0.9rem;
+                padding-left: 10px;
+                text-indent: -10px;
             }
         }
     </style>
@@ -559,8 +590,7 @@
                         <div style="font-size: 3rem; margin-top: 20px;">🎁</div>
                     </div>
                     <div class="page page2" id="page2">
-                        <div id="messageContent"></div>
-                        <span class="pen" id="pen">✏️</span>
+                        <div class="message-content" id="messageContent"></div>
                     </div>
                 </div>
             </div>
@@ -571,8 +601,6 @@
             </div>
 
             <div class="gallery" id="imageGallery">
-                <h2>📸 Kỷ niệm đẹp</h2>
-                <div class="gallery-container" id="galleryContainer">
                     <!-- Ảnh sẽ được thêm tự động -->
                 </div>
             </div>
@@ -611,7 +639,8 @@
             "1.jpg", "2.jpg", "3.jpg", '4.jpg', '5.jpg', '6.jpg', '7.jpg', "8.jpg", "9.jpg", "10.jpg",'41.jpg', '42.jpg',"23.jpg", "24.jpg",
             '11.jpg', '12.jpg', '13.jpg', '14.jpg', "15.jpg", "16.jpg", "17.jpg", '18.jpg', '19.jpg', '20.jpg',"43.jpg",'32.jpg', '33.jpg', '34.jpg',
             '21.jpg', "22.jpg", "23.jpg", "24.jpg", '25.jpg', '26.jpg', '27.jpg', '28.jpg', "29.jpg", "30.jpg","3.jpg", '4.jpg', '5.jpg',
-            "31.jpg", '32.jpg', '33.jpg', '34.jpg', '35.jpg', "36.jpg", "37.jpg", "38.jpg", '39.jpg', '40.jpg', "43.jpg", "44.jpg",'27.jpg', '28.jpg', "29.jpg"
+            "31.jpg", '32.jpg', '33.jpg', '34.jpg', '35.jpg', "36.jpg", "37.jpg", "38.jpg", '39.jpg', '40.jpg', "43.jpg", "44.jpg",'27.jpg', '28.jpg', "29.jpg",
+            '42.jpg', '43.jpg', '44.jpg', '45.jpg', '46.jpg', '47.jpg', '48.jpg', '49.jpg',
         ];
 
         // file nhạc
@@ -619,9 +648,9 @@
         
         // Lời chúc đã được định dạng với gạch đầu dòng
         const message = `  HAPPY BIRTHDAY YẾN SẬY🎂🎂
-                        Đầu tiên là nhân dịp mừng thọ tuổi 20 trừ 3 t chúc m luôn vui vẻ , hạnh phúc , ngày càng xinh gái hơn , học giỏi hơn, bớt sợ thầy tuyến lại , hay ăn chóng lớn gầy như quỷ í , gặp nhiều may mắn , có thật nhiều niềm vui trong cuộc sống , bớt ovtk , luôn suy nghĩ tích cực , đạt được thành công trong cuộc sống , vào trường mà m muốn chọn nghành m thích và đam mê , đỗ nguyện vọng 1 ( ước gì t vs m chung trường đại học thì vuii). 
-                       Tiếp theo là bớt xàm bớt điên lại t nói z th chứ cũng chính vì tính cách hài hước và hoạt bát của m đã giúp cho t từ 1 ng hay cáu gắt trở nên vui vẻ và tích cực hơn . T vs ngồi chung bàn tính đến nay cũng là năm thứ 3 rồi chứng kiến mọi chuyện vui, chuyện buồn, chứng kiến từng khoảnh khắc xấu nhất của nhau, thấy những lần yếu đuối và rơi lệ vì vậy t luôn luôn trân trọng tình bạn này . Tuổi 17 là khoảng thời gian để lưu giữ lại những kỉ niệm quý giá của cta và cũng là hành trình trưởng thành của mỗi đứa tìm cho mk con đường phù hợp cho sau này bớt khổ và cũng muốn bố mẹ mk tự hào về mình . T chẳng còn biết là sinh nhật tuổi 18 của bọn mình còn có thể đông đủ như bây giờ không nhưng mà t cũng rất vui vì được gặp ae trong nhóm lợn và đặc biệt là m - (ngoại lệ) of Sam . T không giỏi văn , không viết được những lời hoa mĩ nhưng đây là tất cả những gì mà t muốn gửi tới m vào dịp sinh tuổi 17 của m 
-                       Cuối cùng là chỉ mong m luôn vui vẻ có một cuộc sống an nhàn sau này làm đại gia thì nuôi t và mãi mãi làm bạn nhé🎂🎂🎂
+                      Đầu tiên là nhân dịp mừng thọ tuổi 20 trừ 3 t chúc m luôn vui vẻ , hạnh phúc , ngày càng xinh gái hơn , học giỏi hơn, bớt sợ thầy tuyến lại , hay ăn chóng lớn gầy như quỷ í , gặp nhiều may mắn , có thật nhiều niềm vui trong cuộc sống , bớt ovtk , luôn suy nghĩ tích cực , đạt được thành công trong cuộc sống , vào trường mà m muốn chọn nghành m thích và đam mê , đỗ nguyện vọng 1 ( ước gì t vs m chung trường đại học thì vuii). 
+                      Tiếp theo là bớt xàm bớt điên lại t nói z th chứ cũng chính vì tính cách hài hước và hoạt bát của m đã giúp cho t từ 1 ng hay cáu gắt trở nên vui vẻ và tích cực hơn . T vs ngồi chung bàn tính đến nay cũng là năm thứ 3 rồi chứng kiến mọi chuyện vui, chuyện buồn, chứng kiến từng khoảnh khắc xấu nhất của nhau, thấy những lần yếu đuối và rơi lệ vì vậy t luôn luôn trân trọng tình bạn này . Tuổi 17 là khoảng thời gian để lưu giữ lại những kỉ niệm quý giá của cta và cũng là hành trình trưởng thành của mỗi đứa tìm cho mk con đường phù hợp cho sau này bớt khổ và cũng muốn bố mẹ mk tự hào về mình . T chẳng còn biết là sinh nhật tuổi 18 của bọn mình còn có thể đông đủ như bây giờ không nhưng mà t cũng rất vui vì được gặp ae trong nhóm lợn và đặc biệt là m - (ngoại lệ) of Sam . T không giỏi văn , không viết được những lời hoa mĩ nhưng đây là tất cả những gì mà t muốn gửi tới m vào dịp sinh tuổi 17 của m 
+                      Cuối cùng là chỉ mong m luôn vui vẻ có một cuộc sống an nhàn sau này làm đại gia thì nuôi t và mãi mãi làm bạn nhé🎂🎂🎂
                 háp pi háp pi háp pì 🎂🎂🎂
                         
                    Hết rồi😏`;
@@ -876,25 +905,21 @@
             showNotification("Đọc ít thôi 💌");
         }
 
-        // Hiệu ứng gõ chữ với xuống dòng tự động - ĐÃ SỬA
+        // Hiệu ứng gõ chữ - ĐÃ SỬA HOÀN TOÀN: Cuộn tự động theo dòng đang viết
         function typeMessage(text) {
             const messageEl = document.getElementById("messageContent");
-            const pen = document.getElementById("pen");
             const page2 = document.getElementById("page2");
             
             messageEl.innerHTML = '';
-            pen.style.display = "block";
             
-            // Tách văn bản thành các dòng dựa trên ký tự xuống dòng
+            // Tách văn bản thành các dòng
             const lines = text.split('\n').filter(line => line.trim() !== '');
             
             let currentLineIndex = 0;
             let currentCharIndex = 0;
-            let isFirstLine = true;
             
             function typeNextChar() {
                 if (currentLineIndex >= lines.length) {
-                    pen.style.display = "none";
                     createConfetti(30);
                     return;
                 }
@@ -902,31 +927,42 @@
                 const currentLineText = lines[currentLineIndex];
                 
                 if (currentCharIndex < currentLineText.length) {
-                    messageEl.innerHTML = '';
+                    // Tạo nội dung cho tất cả các dòng
+                    let content = '';
                     
-                    // Hiển thị các dòng đã hoàn thành
+                    // Thêm các dòng đã hoàn thành
                     for (let i = 0; i < currentLineIndex; i++) {
-                        const completedLine = document.createElement('div');
-                        completedLine.className = 'line';
-                        completedLine.textContent = lines[i];
-                        messageEl.appendChild(completedLine);
+                        content += `<div class="line">${lines[i]}</div>`;
                     }
                     
-                    // Hiển thị dòng đang gõ
-                    const typingLine = document.createElement('div');
-                    typingLine.className = 'line';
-                    typingLine.textContent = currentLineText.substring(0, currentCharIndex + 1);
-                    messageEl.appendChild(typingLine);
+                    // Thêm dòng hiện tại với các ký tự đã gõ
+                    const currentLineContent = currentLineText.substring(0, currentCharIndex + 1);
+                    content += `<div class="line">${currentLineContent}</div>`;
                     
-                    // Cuộn đến dòng hiện tại
-                    messageEl.scrollTop = messageEl.scrollHeight;
+                    messageEl.innerHTML = content;
                     
-                    // Cập nhật vị trí bút - SỬA QUAN TRỌNG
-                    updatePenPosition(typingLine, currentCharIndex, currentLineText);
+                    // SỬA QUAN TRỌNG: Cuộn tự động đến dòng hiện tại
+                    const currentLine = messageEl.lastElementChild;
+                    if (currentLine) {
+                        // Tính toán vị trí cuộn để dòng hiện tại luôn hiển thị
+                        const lineTop = currentLine.offsetTop;
+                        const lineHeight = currentLine.offsetHeight;
+                        const containerHeight = page2.clientHeight;
+                        const scrollTop = page2.scrollTop;
+                        
+                        // Kiểm tra xem dòng hiện tại có đang hiển thị không
+                        const isLineVisible = (lineTop >= scrollTop) && 
+                                            (lineTop + lineHeight <= scrollTop + containerHeight);
+                        
+                        // Nếu dòng không hiển thị, cuộn đến nó
+                        if (!isLineVisible) {
+                            // Cuộn sao cho dòng hiện tại ở vị trí 1/3 từ trên xuống
+                            page2.scrollTop = lineTop - (containerHeight / 3);
+                        }
+                    }
                     
                     currentCharIndex++;
-                    setTimeout(typeNextChar, isFirstLine ? 100 : 50);
-                    isFirstLine = false;
+                    setTimeout(typeNextChar, 50);
                 } else {
                     currentLineIndex++;
                     currentCharIndex = 0;
@@ -940,74 +976,14 @@
                         messageEl.appendChild(lineEl);
                     }
                     
-                    // Cuộn đến cuối
-                    messageEl.scrollTop = messageEl.scrollHeight;
-                    
-                    // Nếu còn dòng tiếp theo, đặt bút ở đầu dòng mới
-                    if (currentLineIndex < lines.length) {
-                        const nextLine = document.createElement('div');
-                        nextLine.className = 'line';
-                        nextLine.textContent = '•'; // Thêm ký tự gạch đầu dòng để có vị trí
-                        messageEl.appendChild(nextLine);
-                        updatePenPosition(nextLine, 0, '•');
-                        nextLine.textContent = ''; // Xóa ký tự sau khi đã định vị
-                    }
+                    // Cuộn đến cuối để hiển thị dòng mới nhất
+                    page2.scrollTop = page2.scrollHeight;
                     
                     setTimeout(typeNextChar, 200);
                 }
             }
             
             typeNextChar();
-        }
-
-        // Cập nhật vị trí bút - ĐÃ SỬA HOÀN TOÀN
-        function updatePenPosition(lineEl, charIndex, fullText) {
-            const pen = document.getElementById("pen");
-            const page2 = document.getElementById("page2");
-            
-            // Đợi một chút để DOM cập nhật
-            setTimeout(() => {
-                // Tạo một span ẩn để đo chiều rộng chính xác
-                const tempSpan = document.createElement('span');
-                tempSpan.style.visibility = 'hidden';
-                tempSpan.style.position = 'absolute';
-                tempSpan.style.whiteSpace = 'pre';
-                tempSpan.style.font = window.getComputedStyle(lineEl).font;
-                tempSpan.style.fontFamily = window.getComputedStyle(lineEl).fontFamily;
-                tempSpan.style.fontSize = window.getComputedStyle(lineEl).fontSize;
-                tempSpan.style.fontWeight = window.getComputedStyle(lineEl).fontWeight;
-                tempSpan.style.lineHeight = window.getComputedStyle(lineEl).lineHeight;
-                
-                // Đo chiều rộng của văn bản hiện tại
-                const currentText = fullText.substring(0, charIndex + 1);
-                tempSpan.textContent = currentText;
-                document.body.appendChild(tempSpan);
-                
-                const textWidth = tempSpan.offsetWidth;
-                const textHeight = tempSpan.offsetHeight;
-                
-                // Lấy vị trí của dòng hiện tại
-                const lineRect = lineEl.getBoundingClientRect();
-                const pageRect = page2.getBoundingClientRect();
-                
-                // Tính toán vị trí bút chính xác
-                const baseLeft = lineRect.left - pageRect.left;
-                const baseTop = lineRect.top - pageRect.top;
-                
-                // Vị trí bút: bắt đầu từ dòng + chiều rộng văn bản + offset nhỏ
-                const penLeft = baseLeft + textWidth + 8;
-                const penTop = baseTop + (textHeight / 2) - 12; // Căn giữa theo chiều cao dòng
-                
-                // Đặt vị trí bút
-                pen.style.left = Math.max(10, Math.min(page2.offsetWidth - 30, penLeft)) + "px";
-                pen.style.top = Math.max(10, Math.min(page2.offsetHeight - 30, penTop)) + "px";
-                
-                // Thêm hiệu ứng
-                pen.style.animation = 'blink 1s infinite, write 0.5s ease';
-                
-                // Dọn dẹp
-                document.body.removeChild(tempSpan);
-            }, 10);
         }
 
         // Hiển thị slideshow ảnh bay 
