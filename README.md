@@ -603,6 +603,8 @@
                     <!-- Ảnh sẽ được thêm tự động -->
                 </div>
             </div>
+        </div>
+    </div>
 
     <div class="slideshow" id="slideshow">
         <div class="slideshow-content">
