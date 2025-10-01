@@ -23,7 +23,7 @@
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             width: 100%;
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
