@@ -25,7 +25,7 @@
             max-width: 1200px;
             width: 100%;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
+            border-radius: 5px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             position: relative;
